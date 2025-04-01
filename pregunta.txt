@@ -1,0 +1,13 @@
+¿Qué elementos o atributos ves que no conocías? 
+Investiga elementos desconocidos y agrega esas respuestas en un block de notas en la carpeta de github.
+
+código iata= Es un código de tres letras utilizado por la Asociación Internacional de Transporte Aéreo,
+se utilizan en los boletos de avión, en la documentación de vuelos y en los sistemas de gestión de aeropuertos y aerolíneas
+
+TINYINT= Es un tipo de dato numérico usado en base de datos, se usa para almacenar valores enteros muy pequeños
+
+created= generalmente se refiere a un campo o columna que almacena la fecha y hora en que se creó un registro, se usa para hacer un seguimiento de cuándo se insertó un nuevo registro
+
+modified= un campo o columna que almacena la fecha y hora en que un registro fue modificado por última vez y lleva un control sobre las actualizaciones que se hacen en los datos a lo largo del tiempo
+
+deleted= Es un campo utilizado para marcar un registro como eliminado, sin eliminar realmente los datos de la tabla
