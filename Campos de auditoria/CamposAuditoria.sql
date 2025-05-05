@@ -1,7 +1,7 @@
 -- CREAR BASE DE DATOS--
-create DATABASE sistema_ventas;
+create DATABASE sistema_ventas4E;
 -- usar base de datos--
-USE sistema_ventas;
+USE sistema_ventas4E;
 -- Creamos la tabla tipo_usuario
 CREATE TABLE tipo_usuarios(
 id_tipo_usuario INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único
@@ -18,9 +18,9 @@ deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 
 -- Tabla para usuarios
 
-CREATE TABLE usuarios (
+CREATE TABLE usuarios(
 
-id_tipo_usuario INT AUTO_INCREMENT PRIMARY KEY, -- Id único
+id_usuario INT AUTO_INCREMENT PRIMARY KEY, -- Id único
 nombre_tipo VARCHAR(100) NOT NULL, -- Nombre de usuario
 correo VARCHAR(100) UNIQUE, -- Correo electrónico único
 tipo_usuario_id INT, -- Relación a tipo_usuario
@@ -34,12 +34,12 @@ updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 -- RELACION ENTRETABLE USUARIO Y TIPO USUARIO 
-ALTER TABLE usuarios  -- Modificar tabla
+ALTER TABLE usuarios -- Modificar tabla
 -- Agregar una restricción (FK)
 ADD CONSTRAINT fk_usuario_tipo_usuario
 -- Añade referencia(FK)
 FOREIGN KEY (tipo_usuario_id) REFERENCES
-tipo_usuario(id_tipo_usuario);
+tipo_usuarios(id_tipo_usuario);
 
 CREATE TABLE productos (
 
@@ -57,7 +57,7 @@ updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 
-CREATE TABLE ventas (
+CREATE TABLE ventas(
 id_ventas INT AUTO_INCREMENT PRIMARY KEY, -- Id único
 vendedor_id INT NOT NULL, 
 fecha_venta DATETIME,
@@ -70,20 +70,22 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+
+
 -- RELACION ENTRE USUARIO Y VENTA 
 ALTER TABLE detalle_ventas  -- Modificar tabla
 -- Agregar una restricción (FK)
 ADD CONSTRAINT fk_usuario_ventas
 -- Añade referencia(FK)
-FOREIGN KEY (usuario_id) REFERENCES
-ventas(venta_id);
+FOREIGN KEY (venta_id) REFERENCES
+ventas(id_ventas);
 
 -- RELACION ENTRE PRODUCTO Y VENMTA 
 ALTER TABLE detalle_ventas  -- Modificar tabla
 -- Agregar una restricción (FK)
 ADD CONSTRAINT fk_producto_ventas
 -- Añade referencia(FK)
-FOREIGN KEY (productos_id) REFERENCES
+FOREIGN KEY (producto_id) REFERENCES
 productos(id_productos);
 
 CREATE TABLE detalle_ventas (
@@ -100,4 +102,3 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
-
