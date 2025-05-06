@@ -41,6 +41,7 @@ ADD CONSTRAINT fk_usuario_tipo_usuario
 FOREIGN KEY (tipo_usuario_id) REFERENCES
 tipo_usuarios(id_tipo_usuario);
 
+
 CREATE TABLE productos (
 
 id_productos INT AUTO_INCREMENT PRIMARY KEY, -- Id único
@@ -56,11 +57,19 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+-- crear relacion entre usuario y venta --
+ALTER TABLE ventas -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_usuario_ventas5
+-- Añade referencia(FK)
+FOREIGN KEY (id_ventas) REFERENCES
+usuarios(id_usuario);
 
 CREATE TABLE ventas(
 id_ventas INT AUTO_INCREMENT PRIMARY KEY, -- Id único
 vendedor_id INT NOT NULL, 
 fecha_venta DATETIME,
+
 
 -- Campos de auditoría
 
@@ -72,7 +81,7 @@ deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 
 
--- RELACION ENTRE USUARIO Y VENTA 
+-- RELACION ENTRE detalle Y VENTA 
 ALTER TABLE detalle_ventas  -- Modificar tabla
 -- Agregar una restricción (FK)
 ADD CONSTRAINT fk_usuario_ventas
@@ -80,7 +89,7 @@ ADD CONSTRAINT fk_usuario_ventas
 FOREIGN KEY (venta_id) REFERENCES
 ventas(id_ventas);
 
--- RELACION ENTRE PRODUCTO Y VENMTA 
+-- RELACION ENTRE PRODUCTO Y detalle 
 ALTER TABLE detalle_ventas  -- Modificar tabla
 -- Agregar una restricción (FK)
 ADD CONSTRAINT fk_producto_ventas
