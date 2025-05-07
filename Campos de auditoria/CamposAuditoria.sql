@@ -15,7 +15,8 @@ created_by INT, -- Usuario que crea
 updated_by INT, -- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
-
+ALTER TABLE tipo_usuarios
+ADD descripcion_tipo varchar(200) AFTER nombre_tipo;
 -- Tabla para usuarios
 
 CREATE TABLE usuarios(
@@ -41,6 +42,11 @@ ADD CONSTRAINT fk_usuario_tipo_usuario
 FOREIGN KEY (tipo_usuario_id) REFERENCES
 tipo_usuarios(id_tipo_usuario);
 
+ALTER TABLE usuarios
+CHANGE COLUMN nombre_tipo nombre_usuario varchar(100) not null;
+
+ALTER TABLE usuarios
+ADD passwordd varchar(45) AFTER nombre_usuario;
 
 CREATE TABLE productos (
 
@@ -57,6 +63,9 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+ALTER TABLE productos
+MODIFY COLUMN precio float NOT null;
+
 -- crear relacion entre usuario y venta --
 ALTER TABLE ventas -- Modificar tabla
 -- Agregar una restricción (FK)
@@ -79,6 +88,8 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+ALTER TABLE ventas
+CHANGE COLUMN vendedor_id usuario_id varchar(100) not null;
 
 
 -- RELACION ENTRE detalle Y VENTA 
@@ -111,3 +122,5 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+ALTER TABLE detalle_ventas
+MODIFY COLUMN precio_unitario float NOT null;
