@@ -46,7 +46,7 @@ ALTER TABLE usuarios
 CHANGE COLUMN nombre_tipo nombre_usuario varchar(100) not null;
 
 ALTER TABLE usuarios
-ADD passwordd varchar(45) AFTER nombre_usuario;
+ADD password varchar(45) AFTER nombre_usuario;
 
 CREATE TABLE productos (
 
@@ -76,7 +76,7 @@ usuarios(id_usuario);
 
 CREATE TABLE ventas(
 id_ventas INT AUTO_INCREMENT PRIMARY KEY, -- Id único
-vendedor_id INT NOT NULL, 
+usuario_id INT NOT NULL, 
 fecha_venta DATETIME,
 
 
@@ -88,8 +88,6 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
-ALTER TABLE ventas
-CHANGE COLUMN vendedor_id usuario_id varchar(100) not null;
 
 
 -- RELACION ENTRE detalle Y VENTA 
@@ -127,7 +125,7 @@ MODIFY COLUMN precio_unitario float NOT null;
 
 -- ..... Insertar un usuario técnico inicial ..... --
 INSERT INTO usuarios (
-    nombre_usuario, passwordd, correo, tipo_usuario_id, created_by, updated_by
+    nombre_usuario, password, correo, tipo_usuario_id, created_by, updated_by
 )
 VALUES (
     'sistema',
@@ -179,7 +177,7 @@ VALUES (
 
 -- Insertar un nuevo usuario real --
 INSERT INTO usuarios (
-    nombre_usuario, passwordd, correo, tipo_usuario_id, created_by, updated_by
+    nombre_usuario, password, correo, tipo_usuario_id, created_by, updated_by
 )
 VALUES (
     'Yetzibel',
@@ -213,6 +211,102 @@ VALUES (
 	1, 1  -- creado por el usuario "sistema"
 
 );
+-- tabla productos -- 
+INSERT INTO productos (
+    nombre_productos, precio, stock, created_by, updated_by
+)
+VALUES (
+    'Bebida',
+    1000, 
+    50,
+    4, -- usuario de registro 
+	4   
 
+),
+(
+    'Helado',
+    200, 
+    100,
+    4, 
+	4  
 
-
+),
+(
+	'Chocolate',
+    2000,
+    80,
+    4,
+    4
+),
+(
+    'Galleta',
+    1000,
+    200,
+    4,
+    4
+),
+(
+    'Mentas',
+    500,
+    100,
+    4,
+    4
+);
+-- tabla ventas -- 
+INSERT INTO ventas (
+    usuario_id, fecha_venta, created_by, updated_by
+)
+VALUES (
+    2, 
+     NOW(),
+     2,
+     2
+),
+(
+	 2,
+     NOW(),
+     2,
+     2
+),
+(
+	 2,
+     NOW(),
+     2,
+     2
+),
+(
+	 2,
+     NOW(),
+     2,
+     2
+),
+(
+     2,
+     NOW(),
+     2,
+     2
+);
+select * from ventas;
+select * from usuarios;
+-- tabla detalle ventas -- 
+-- tabla ventas -- 
+INSERT INTO detalle_ventas (
+    venta_id, producto_id, cantidad_vendida, precio_unitario, created_by, updated_by
+)
+VALUES (
+     1,
+     
+),
+(
+	
+),
+(
+	 
+),
+(
+	
+),
+(
+     
+);
+select * from ventas;
