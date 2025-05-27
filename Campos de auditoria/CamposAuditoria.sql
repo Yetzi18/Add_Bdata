@@ -124,3 +124,95 @@ deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 ALTER TABLE detalle_ventas
 MODIFY COLUMN precio_unitario float NOT null;
+
+-- ..... Insertar un usuario técnico inicial ..... --
+INSERT INTO usuarios (
+    nombre_usuario, passwordd, correo, tipo_usuario_id, created_by, updated_by
+)
+VALUES (
+    'sistema',
+    '1234', -- Contraseña encriptada (ejemplo realista con bcrypt)
+    'sistema@plataforma.cl',
+    NULL,
+    NULL,
+    NULL
+);
+INSERT INTO tipo_usuarios (
+    nombre_tipo,
+    descripcion_tipo,
+    created_by,
+    updated_by
+)
+VALUES (
+    'Administrador',
+    'Accede a todas las funciones del sistema, incluida la administración de usuarios.',
+    1, -- creado por el usuario inicial
+    1  -- actualizado por el mismo
+);
+-- Crear tipo de usuarios --
+
+INSERT INTO tipo_usuarios (
+    nombre_tipo,
+    descripcion_tipo,
+    created_by,
+    updated_by
+)
+VALUES (
+    'Vendedor',
+    'Registra ventas, aplica descuentos, genera facturas o tickets.',
+    1, -- creado por el usuario inicial
+    1  -- actualizado por el mismo
+),
+(
+    'Cliente',
+    'Puede ver productos, relizar pedidos, realizar pagos y ver su historial de compras.',
+    1, -- creado por el usuario inicial
+    1  -- actualizado por el mismo
+),
+(
+    'Gerente',
+    'Accede a reportes de ventas, rendimiento de vendedores, gestión de inventario y autoriza descuentos o devoluciones.',
+    1, -- creado por el usuario inicial
+    1  -- actualizado por el mismo
+);
+
+
+-- Insertar un nuevo usuario real --
+INSERT INTO usuarios (
+    nombre_usuario, passwordd, correo, tipo_usuario_id, created_by, updated_by
+)
+VALUES (
+    'Yetzibel',
+    '4567', -- bcrypt hasheado
+    'yetzibelgonzalez@liceovvh.cl',
+    1,  -- tipo: Administrador
+	1, 1  -- creado por el usuario "sistema"
+
+),
+(
+    'Abigail',
+    '4567', -- bcrypt hasheado
+    'abigailcaniucura@liceovvh.cl',
+    2,  -- tipo: Administrador
+	1, 1  -- creado por el usuario "sistema"
+
+),
+(
+    'Mariangel',
+    '4567', -- bcrypt hasheado
+    'mariangelpirona@liceovvh.cl',
+    3,  -- tipo: Administrador
+	1, 1  -- creado por el usuario "sistema"
+
+),
+(
+    'Benjamin',
+    '4567', -- bcrypt hasheado
+    'benjaminrios@liceovvh.cl',
+    4,  -- tipo: Administrador
+	1, 1  -- creado por el usuario "sistema"
+
+);
+
+
+
