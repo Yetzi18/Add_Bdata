@@ -295,18 +295,45 @@ INSERT INTO detalle_ventas (
 )
 VALUES (
      1,
-     
+     2,
+     50,
+     100,
+     2,
+     2
 ),
 (
-	
+	 5,
+     4,
+     100,
+     600,
+     2,
+     2
 ),
 (
-	 
+	 2,
+     1,
+     30,
+     700,
+     2,
+     2
 ),
 (
-	
+	 3,
+     3,
+     50,
+     1100,
+     2,
+     2
 ),
 (
-     
+     4,
+     5,
+     70,
+     300,
+     2,
+     2
 );
+select * from productos;
 select * from ventas;
+select * from detalle_ventas;
+select * from tipo_usuarios;
