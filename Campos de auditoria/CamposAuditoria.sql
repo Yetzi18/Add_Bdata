@@ -258,33 +258,33 @@ INSERT INTO ventas (
 )
 VALUES (
     2, 
-     NOW(),
-     2,
-     2
+    NOW(),
+    2,
+    2
 ),
 (
-	 2,
-     NOW(),
-     2,
-     2
+	2,
+    NOW(),
+    2,
+    2
 ),
 (
-	 2,
-     NOW(),
-     2,
-     2
+	2,
+    NOW(),
+    2,
+    2
 ),
 (
-	 2,
-     NOW(),
-     2,
-     2
+	2,
+    NOW(),
+    2,
+    2
 ),
 (
-     2,
-     NOW(),
-     2,
-     2
+    2,
+    NOW(),
+    2,
+    2
 );
 select * from ventas;
 select * from usuarios;
@@ -294,46 +294,92 @@ INSERT INTO detalle_ventas (
     venta_id, producto_id, cantidad_vendida, precio_unitario, created_by, updated_by
 )
 VALUES (
-     1,
-     2,
-     50,
-     100,
-     2,
-     2
+    1,
+    2,
+    50,
+    100,
+    2,
+    2
 ),
 (
-	 5,
-     4,
-     100,
-     600,
-     2,
-     2
+	5,
+    4,
+    100,
+    600,
+    2,
+    2
 ),
 (
-	 2,
-     1,
-     30,
-     700,
-     2,
-     2
+	2,
+    1,
+    30,
+    700,
+    2,
+    2
 ),
 (
-	 3,
-     3,
-     50,
-     1100,
-     2,
-     2
+	3,
+    3,
+    50,
+    1100,
+    2,
+    2
 ),
 (
-     4,
-     5,
-     70,
-     300,
-     2,
-     2
+    4,
+    5,
+    70,
+    300,
+    2,
+    2
 );
 select * from productos;
 select * from ventas;
 select * from detalle_ventas;
+<<<<<<< HEAD
 select * from tipo_usuarios;
+select * from usuarios;
+
+-- nueva tarea ---
+
+UPDATE usuarios
+SET deleted = 1
+Where id_usuario BETWEEN 2 AND 4;
+
+
+SELECT nombre_usuario
+FROM usuarios
+WHERE tipo_usuario_id = 1; 
+
+SELECT nombre_usuario
+FROM usuarios
+WHERE nombre_usuario  LIKE 'M%';
+
+SELECT fecha_venta
+FROM ventas
+WHERE DATE(fecha_venta) BETWEEN '2025-05-26' AND '2025-05-30';
+
+-- Creá cinco consultas propias --
+
+SELECT nombre_tipo
+FROM tipo_usuarios
+WHERE nombre_tipo = 'Administrador' AND id_tipo_usuario = 1;
+
+SELECT nombre_productos
+FROM productos
+WHERE precio  LIKE '2%';
+
+SELECT venta_id, producto_id
+FROM detalle_ventas
+WHERE cantidad_vendida BETWEEN 30 AND 50;
+
+SELECT nombre_usuario
+FROM usuarios
+WHERE  password  LIKE '1%' or '4%';
+
+SELECT usuario_id
+FROM ventas
+WHERE DATE(fecha_venta) BETWEEN '2025-05-20' AND '2025-06-15';
+
+select * from tipo_usuarios;
+
