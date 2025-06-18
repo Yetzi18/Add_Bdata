@@ -3,6 +3,7 @@ create DATABASE sistema_ventas4E;
 -- usar base de datos--
 USE sistema_ventas4E;
 -- Creamos la tabla tipo_usuario
+
 CREATE TABLE tipo_usuarios(
 id_tipo_usuario INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único
 nombre_tipo VARCHAR(50) NOT NULL, -- Tipo de usuario (Admin, Cliente)
