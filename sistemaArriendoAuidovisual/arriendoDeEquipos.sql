@@ -72,7 +72,10 @@ updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 
-
+ALTER TABLE clientes 
+ADD COLUMN usuario_id INT AFTER telefono;
+ALTER TABLE clientes 
+ADD COLUMN telefono_id INT AFTER usuario_id;
 
 CREATE TABLE tipo_equipos(
 id_tipo_equipo INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único
@@ -110,6 +113,15 @@ updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 
+ALTER TABLE equipos 
+ADD COLUMN mantenimiento_id INT AFTER tipo_equipo_id;
+ALTER TABLE equipos 
+ADD COLUMN ubicacion_id INT AFTER mantenimiento_id;
+ALTER TABLE equipos 
+ADD COLUMN estado_id INT AFTER ubicacion_id;
+ALTER TABLE equipos 
+ADD COLUMN reserva_id INT AFTER estado_id;
+
 
 create table estado_equipos(
 id_estado INT AUTO_INCREMENT PRIMARY KEY, -- Id único
@@ -137,7 +149,8 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
-
+ALTER TABLE ubicacion_equipos
+ADD CONSTRAINT chk_numero_estante CHECK (numero_estante BETWEEN 1 AND 20);
 
 CREATE TABLE tipo_mantenimientos(
 id_tipo_mantenimiento INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único
@@ -158,8 +171,8 @@ deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 CREATE TABLE mantenimientos(
 
 id_mantenimiento INT AUTO_INCREMENT PRIMARY KEY, -- Id único
-nombre_equipo VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_equipo) >= 3  AND nombre_cliente REGEXP '^[A-Za-z ]+$'), -- Nombre de usuario
-nombre_tecnico VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_tecnico) >= 3  AND nombre_cliente REGEXP '^[A-Za-z ]+$'),
+nombre_equipo VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_equipo) >= 3  AND nombre_equipo REGEXP '^[A-Za-z ]+$'), -- Nombre de usuario
+nombre_tecnico VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_tecnico) >= 3  AND nombre_tecnico REGEXP '^[A-Za-z ]+$'),
 fecha_mantenimiento datetime DEFAULT (CURRENT_DATE),
 descripcion VARCHAR(200) NOT NULL CHECK (CHAR_LENGTH(descripcion) >= 3),
 tipo_mantenimiento_id varchar(10) not null,
@@ -190,6 +203,11 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+ALTER TABLE reservas 
+ADD COLUMN tipo_pago_id INT AFTER precio;
+ALTER TABLE reservas 
+ADD COLUMN cliente_id INT AFTER tipo_pago_id;
+
 
 CREATE TABLE tipo_pagos(
 id_tipo_pago INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único
@@ -233,9 +251,9 @@ FOREIGN KEY (tipo_usuario_id) REFERENCES
 tipo_usuarios(id_tipo_usuario);
 
 -- RELACION ENTRETABLE USUARIO Y TIPO USUARIO 
-ALTER TABLE cliente -- Modificar tabla
+ALTER TABLE clientes -- Modificar tabla
 -- Agregar una restricción (FK)
-ADD CONSTRAINT fk_cliente_tipo_clientes
+ADD CONSTRAINT fk_clientes_tipo_clientes
 -- Añade referencia(FK)
 FOREIGN KEY (tipo_cliente_id) REFERENCES
 tipo_clientes(id_tipo_cliente);
@@ -243,7 +261,79 @@ tipo_clientes(id_tipo_cliente);
 -- RELACION ENTRETABLE EQUIPOs Y TIPO EQUIPO 
 ALTER TABLE equipos -- Modificar tabla
 -- Agregar una restricción (FK)
-ADD CONSTRAINT fk_equipos_tipo_equipo
+ADD CONSTRAINT fk_equipos_tipo_equipos
 -- Añade referencia(FK)
 FOREIGN KEY (tipo_equipo_id) REFERENCES
 tipo_equipos(id_tipo_equipo);
+
+-- RELACION ENTRETABLE MANTENIMIENTO Y TIPO MANTENIMIENTO 
+ALTER TABLE mantenimientos -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_mantenimientos_tipo_mantenimientos
+-- Añade referencia(FK)
+FOREIGN KEY (tipo_mantenimiento_id) REFERENCES
+tipo_mantenimientos(id_tipo_mantenimiento);
+
+-- RELACION ENTRETABLE EQUIPOS Y  MANTENIMIENTO 
+ALTER TABLE equipos -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_mantenimientos_equipos
+-- Añade referencia(FK)
+FOREIGN KEY (mantenimiento_id) REFERENCES
+mantenimientos(id_mantenimiento);
+
+-- RELACION ENTRETABLE EQUIPOS Y ESTADO EQUIPO
+ALTER TABLE equipos -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_estado_equipo
+-- Añade referencia(FK)
+FOREIGN KEY (estado_id) REFERENCES
+estado_equipos(id_estado);
+
+-- RELACION ENTRETABLE EQUIPOS Y UBICACION
+ALTER TABLE equipos -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_estado_ubicacion
+-- Añade referencia(FK)
+FOREIGN KEY (ubicacion_id) REFERENCES
+ubicacion_equipos(id_ubicacion);
+
+-- RELACION ENTRETABLE EQUIPOS Y resarva
+ALTER TABLE equipos -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_estado_reserva
+-- Añade referencia(FK)
+FOREIGN KEY (reserva_id) REFERENCES
+reservas(id_reservas);
+
+-- RELACION ENTRETABLE RESERVAS Y TIPO PAGO
+ALTER TABLE reservas -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_tipo_pago_reserva
+-- Añade referencia(FK)
+FOREIGN KEY (tipo_pago_id) REFERENCES
+tipo_pagos(id_tipo_pago);
+
+-- RELACION ENTRETABLE RESERVAS Y Cliente
+ALTER TABLE reservas -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_cliente_reserva
+-- Añade referencia(FK)
+FOREIGN KEY (cliente_id) REFERENCES
+clientes(id_cliente);
+
+-- RELACION ENTRETABLE CLIENTES Y USUARIO
+ALTER TABLE clientes -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_cliente_usuario
+-- Añade referencia(FK)
+FOREIGN KEY (usuario_id) REFERENCES
+usuarios(id_usuario);
+
+-- RELACION ENTRETABLE CLIENTES Y telefono
+ALTER TABLE clientes -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_cliente_telefono
+-- Añade referencia(FK)
+FOREIGN KEY (telefono_id) REFERENCES
+telefonos(id_telefono);
