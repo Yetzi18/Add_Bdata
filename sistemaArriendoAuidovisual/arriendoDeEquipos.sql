@@ -173,7 +173,10 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
-
+alter table mantenimientos 
+add  usuaios_id int not null after tipo_mantenimiento_id;
+alter table mantenimientos 
+add  equipos_id int not null after usuaios_id;
 
 CREATE TABLE reservas(
 id_reservas INT AUTO_INCREMENT PRIMARY KEY, -- Id único
@@ -193,7 +196,12 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+alter table reservas 
+add usuaio_id int not null after tipo_pago_id;
+alter table reservas 
+add cantidad_dias int not null after precio;
 
+select * from reservas;
 
 
 CREATE TABLE tipo_pagos(
@@ -324,3 +332,43 @@ ADD CONSTRAINT fk_cliente_telefono
 -- Añade referencia(FK)
 FOREIGN KEY (telefono_id) REFERENCES
 telefonos(id_telefono);
+
+-- CORRECCIONES 
+
+ALTER TABLE reservas
+DROP FOREIGN KEY fk_cliente_reserva;
+
+-- RELACION ENTRETABLE RESERVAS Y USUARIO
+ALTER TABLE reservas -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_usuario_reserva
+-- Añade referencia(FK)
+FOREIGN KEY (usuaio_id) REFERENCES
+usuarios(id_usuairo);
+
+ALTER TABLE reservas
+DROP COLUMN forma_pago;
+
+ALTER TABLE equipos 
+DROP COLUMN estado;
+
+-- RELACION ENTRETABLE mantenimiento Y USUARIO
+ALTER TABLE mantenimientos -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_mantenimientos_usuarios
+-- Añade referencia(FK)
+FOREIGN KEY (usuaios_id) REFERENCES
+usuarios(id_usuario);
+
+-- RELACION ENTRETABLE mantenimiento Y equipos
+ALTER TABLE mantenimientos -- Modificar tabla
+-- Agregar una restricción (FK)
+ADD CONSTRAINT fk_mantenimientos_equipos
+-- Añade referencia(FK)
+FOREIGN KEY (equipos_id) REFERENCES
+equipos(id_equipo);
+
+create table reservas_has_equipos(
+	reservas_id_reservas INT PRIMARY KEY not null,
+    equipos_id_equipo INT PRIMARY KEY not null
+);
