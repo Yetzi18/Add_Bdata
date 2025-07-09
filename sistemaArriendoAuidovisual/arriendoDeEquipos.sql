@@ -24,7 +24,7 @@ nombre_usuario VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_usuario) >= 3 AND
 edad_usuario TINYINT CHECK (edad_usuario BETWEEN 18 AND 100),
 password varchar(45),
 correo VARCHAR(100) NOT NULL UNIQUE CHECK (correo LIKE '%@%.%'), -- Correo electrónico único
-tipo_usuario_id INT, -- Relación a tipo_usuario
+tipo_usuario_id INT NOT NULL, -- Relación a tipo_usuario
 
 -- Campos de auditoría
 
@@ -54,15 +54,15 @@ deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 
 
 CREATE TABLE clientes(
-
 id_cliente INT AUTO_INCREMENT PRIMARY KEY, -- Id único
 nombre_cliente VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_cliente) >= 3 AND nombre_cliente REGEXP '^[A-Za-z ]+$'), -- Nombre de usuario
 edad_clientes TINYINT CHECK (edad_clientes BETWEEN 18 AND 100),
 rut varchar(10) not null,
-tipo_cliente_id INT, -- Relación a tipo_cliente
+tipo_cliente_id INT not null, -- Relación a tipo_cliente
 correo VARCHAR(100) NOT NULL UNIQUE CHECK (correo LIKE '%@%.%'), -- Correo electrónico único
 telefono varchar(15) not null,
-
+usuario_id int not null,
+telefono_id int not null,
 -- Campos de auditoría
 
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Fecha creación
@@ -72,10 +72,7 @@ updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 
-ALTER TABLE clientes 
-ADD COLUMN usuario_id INT AFTER telefono;
-ALTER TABLE clientes 
-ADD COLUMN telefono_id INT AFTER usuario_id;
+
 
 CREATE TABLE tipo_equipos(
 id_tipo_equipo INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único
@@ -94,7 +91,6 @@ deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 
 CREATE TABLE equipos(
-
 id_equipo INT AUTO_INCREMENT PRIMARY KEY, -- Id único
 codigo_equipo varchar(20) not null,
 nombre_equipo VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_equipo) >= 3), 
@@ -103,7 +99,11 @@ estado varchar(200) not null,
 valor_diario float not null,
 ubicacion varchar(100) not null,
 disponible BOOLEAN DEFAULT TRUE not null,
-tipo_equipo_id varchar(10) not null,
+tipo_equipo_id int not null,
+mantenimiento_id int not null,
+ubicacion_id int not null,
+estado_id int not null,
+reserva_id int not null,
 -- Campos de auditoría
 
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Fecha creación
@@ -112,15 +112,6 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
-
-ALTER TABLE equipos 
-ADD COLUMN mantenimiento_id INT AFTER tipo_equipo_id;
-ALTER TABLE equipos 
-ADD COLUMN ubicacion_id INT AFTER mantenimiento_id;
-ALTER TABLE equipos 
-ADD COLUMN estado_id INT AFTER ubicacion_id;
-ALTER TABLE equipos 
-ADD COLUMN reserva_id INT AFTER estado_id;
 
 
 create table estado_equipos(
@@ -138,8 +129,8 @@ deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 
 create table ubicacion_equipos(
 id_ubicacion INT AUTO_INCREMENT PRIMARY KEY, -- Id único
-numero_pasillo varchar(10) not null,
-numero_estante int not null,
+numero_pasillo int not null,
+numero_estante int not null CHECK (numero_estante BETWEEN 1 AND 20),
 equipo_id int not null, 
 -- Campos de auditoría
 
@@ -149,8 +140,6 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
-ALTER TABLE ubicacion_equipos
-ADD CONSTRAINT chk_numero_estante CHECK (numero_estante BETWEEN 1 AND 20);
 
 CREATE TABLE tipo_mantenimientos(
 id_tipo_mantenimiento INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único
@@ -169,13 +158,13 @@ deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 
 CREATE TABLE mantenimientos(
-
 id_mantenimiento INT AUTO_INCREMENT PRIMARY KEY, -- Id único
 nombre_equipo VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_equipo) >= 3  AND nombre_equipo REGEXP '^[A-Za-z ]+$'), -- Nombre de usuario
 nombre_tecnico VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_tecnico) >= 3  AND nombre_tecnico REGEXP '^[A-Za-z ]+$'),
 fecha_mantenimiento datetime DEFAULT (CURRENT_DATE),
 descripcion VARCHAR(200) NOT NULL CHECK (CHAR_LENGTH(descripcion) >= 3),
-tipo_mantenimiento_id varchar(10) not null,
+tipo_mantenimiento_id int not null,
+
 -- Campos de auditoría
 
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Fecha creación
@@ -187,7 +176,6 @@ deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 
 
 CREATE TABLE reservas(
-
 id_reservas INT AUTO_INCREMENT PRIMARY KEY, -- Id único
 fecha_inicio datetime DEFAULT (CURRENT_DATE), 
 fecha_termino datetime DEFAULT (CURRENT_DATE),
@@ -195,6 +183,8 @@ nombre_cliente VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_cliente) >= 3  AN
 equipos_arrendado int not null,
 forma_pago varchar(100) not null,
 precio DECIMAL(10,2) CHECK (precio >= 0),
+tipo_pago_id int not null,
+cliente_id int not null,
 -- Campos de auditoría
 
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Fecha creación
@@ -203,10 +193,7 @@ created_by INT,-- Usuario que crea
 updated_by INT,-- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
-ALTER TABLE reservas 
-ADD COLUMN tipo_pago_id INT AFTER precio;
-ALTER TABLE reservas 
-ADD COLUMN cliente_id INT AFTER tipo_pago_id;
+
 
 
 CREATE TABLE tipo_pagos(
