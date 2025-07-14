@@ -17,6 +17,9 @@ updated_by INT, -- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 
+alter table tipo_usuarios
+drop column nivel_acceso; 
+
 CREATE TABLE usuarios(
 
 id_usuario INT AUTO_INCREMENT PRIMARY KEY, -- Id único
@@ -51,6 +54,10 @@ created_by INT, -- Usuario que crea
 updated_by INT, -- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+
+alter table tipo_clientes
+drop column nivel_acceso; 
+
 
 
 CREATE TABLE clientes(
@@ -89,6 +96,9 @@ created_by INT, -- Usuario que crea
 updated_by INT, -- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+
+alter table tipo_equipos
+drop column nivel_acceso; 
 
 CREATE TABLE equipos(
 id_equipo INT AUTO_INCREMENT PRIMARY KEY, -- Id único
@@ -156,6 +166,9 @@ updated_by INT, -- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
 
+alter table tipo_mantenimientos
+drop column nivel_acceso; 
+
 CREATE TABLE mantenimientos(
 id_mantenimiento INT AUTO_INCREMENT PRIMARY KEY, -- Id único
 nombre_equipo VARCHAR(100) NOT NULL CHECK (CHAR_LENGTH(nombre_equipo) >= 3  AND nombre_equipo REGEXP '^[A-Za-z ]+$'), -- Nombre de usuario
@@ -217,6 +230,9 @@ created_by INT, -- Usuario que crea
 updated_by INT, -- Usuario que modifica
 deleted BOOLEAN DEFAULT FALSE -- Borrado lógico
 );
+
+alter table tipo_pagos
+drop column nivel_acceso; 
 
 
 CREATE TABLE telefonos(
